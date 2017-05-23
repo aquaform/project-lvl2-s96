@@ -8,6 +8,7 @@ program.version(pkg.version)
   .option('-f, --format [type]', 'output format')
   .action((pathToFile1, pathToFile2) => {
     const diffs = gendiff(pathToFile1, pathToFile2);
+    console.log(diffs);
   });
 
 export default () => {

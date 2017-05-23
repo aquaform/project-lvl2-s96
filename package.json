@@ -1,18 +1,19 @@
 {
   "name": "generate-differences-pvv",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Generate differences",
-  "main": "index.js",
+  "main": "dist/gendiff.js",
   "bin": {
     "gendiff": "dist/bin/gendiff.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "babel-node": "babel-node",
-    "start": "babel-node -- src/bin/gendiff.js",
+    "start": "NODE_ENV=production babel-node -- src/bin/gendiff.js",
     "build": "babel src --out-dir dist --source-maps inline",
     "prepublish": "npm run build",
-    "eslint": "eslint"
+    "eslint": "eslint",
+    "test": "jest --watch"
   },
   "author": "Vladimir Ku",
   "license": "ISC",

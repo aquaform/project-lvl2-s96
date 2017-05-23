@@ -1,37 +1,32 @@
 import fs from 'fs';
 import * as _ from 'lodash';
 
-export default (pathToFile1, pathToFile2) => {
+const makeDiff = (status, key, value) => {
+  const result = {};
+  result.status = status;
+  result[key] = value;
+  return result;
+};
+
+const parseFiles = (pathToFile1, pathToFile2) => {
   const firstConfig = JSON.parse(fs.readFileSync(pathToFile1, 'utf8'));
   const secondConfig = JSON.parse(fs.readFileSync(pathToFile2, 'utf8'));
+  return { firstConf: firstConfig, secondConf: secondConfig };
+};
 
+export const findDiffs = (firstConfig, secondConfig) => {
   const firstConfigKeys = Object.keys(firstConfig);
   const secondConfigKeys = Object.keys(secondConfig);
 
   const result = firstConfigKeys.reduce((acc, key) => {
     const newAcc = acc;
     if (secondConfig[key] !== undefined) {
-      if (secondConfig[key] === firstConfig[key]) {
-        const value = {};
-        value.status = '=';
-        value[key] = firstConfig[key];
-        newAcc.push(value);
-      } else {
-        const valueAdd = {};
-        valueAdd.status = '+';
-        valueAdd[key] = secondConfig[key];
-        newAcc.push(valueAdd);
-        const valueRem = {};
-        valueRem.status = '-';
-        valueRem[key] = firstConfig[key];
-        newAcc.push(valueRem);
+      if (secondConfig[key] === firstConfig[key]) newAcc.push(makeDiff(' ', key, firstConfig[key]));
+      else {
+        newAcc.push(makeDiff('+', key, secondConfig[key]));
+        newAcc.push(makeDiff('-', key, firstConfig[key]));
       }
-    } else {
-      const valueRem = {};
-      valueRem.status = '-';
-      valueRem[key] = firstConfig[key];
-      newAcc.push(valueRem);
-    }
+    } else newAcc.push(makeDiff('-', key, firstConfig[key]));
     return newAcc;
   }
   , []);
@@ -39,13 +34,24 @@ export default (pathToFile1, pathToFile2) => {
   const newKeysInSecondConfig = _.difference(secondConfigKeys, firstConfigKeys);
   newKeysInSecondConfig.reduce((acc, key) => {
     const newAcc = acc;
-    const value = {};
-    value.status = '+';
-    value[key] = secondConfig[key];
-    newAcc.push(value);
+    newAcc.push(makeDiff('+', key, secondConfig[key]));
     return newAcc;
   }, result);
+  return result;
+};
 
+const renderDiff = diff => Object.keys(diff).reduce((acc, key) => {
+  const value = `${key}` === 'status' ? `${acc} ${diff[key]}` : ` ${acc} ${key}: ${diff[key]}`;
+  return value;
+}, '');
 
-  console.log(result);
+const renderDiffs = diffs => diffs.reduce((acc, diff) => `${acc} ${renderDiff(diff)}\n`, '');
+
+export const gendiff = (pathToFile1, pathToFile2) => {
+  const firstConfig = parseFiles(pathToFile1, pathToFile2).firstConf;
+  const secondConfig = parseFiles(pathToFile1, pathToFile2).secondConf;
+
+  const result = findDiffs(firstConfig, secondConfig);
+
+  return renderDiffs(result);
 };
