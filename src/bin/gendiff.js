@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-import { start, program } from '..';
+import start from '..';
 
-program.parse(process.argv);
 start();

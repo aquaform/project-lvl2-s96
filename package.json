@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "commander": "^2.9.0",
-    "readline-sync": "^1.4.7"
+    "readline-sync": "^1.4.7",
+    "lodash": "^4.17.4"
   }
 }
