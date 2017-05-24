@@ -7,13 +7,12 @@
     "gendiff": "dist/bin/gendiff.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --watch",
     "babel-node": "babel-node",
     "start": "NODE_ENV=production babel-node -- src/bin/gendiff.js",
     "build": "babel src --out-dir dist --source-maps inline",
     "prepublish": "npm run build",
-    "eslint": "eslint",
-    "test": "jest --watch"
+    "eslint": "eslint"
   },
   "author": "Vladimir Ku",
   "license": "ISC",
@@ -30,7 +29,8 @@
   },
   "dependencies": {
     "commander": "^2.9.0",
-    "readline-sync": "^1.4.7",
-    "lodash": "^4.17.4"
+    "js-yaml": "^3.8.4",
+    "lodash": "^4.17.4",
+    "readline-sync": "^1.4.7"
   }
 }

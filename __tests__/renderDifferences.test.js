@@ -7,7 +7,7 @@ test('Render differences', () => {
     { status: '-', proxy: '123.234.53.22' },
     { status: '+', verbose: true }];
 
-  const result = '  host: hexlet.io\n+ timeout: 20\n- timeout: 50\n- proxy: 123.234.53.22\n+ verbose: true\n';
+  const result = '  host: hexlet.io\n+ timeout: 20\n- timeout: 50\n- proxy: 123.234.53.22\n+ verbose: true';
 
   expect(renderDiffs(arrOfDiffs)).toEqual(result);
 });
