@@ -1,5 +1,6 @@
 import fs from 'fs';
 import jsyaml from 'js-yaml';
+import ini from 'ini';
 
 const getExtension = pathToFile => pathToFile.split('.').pop();
 
@@ -12,7 +13,9 @@ const parseFile = (pathToFile) => {
     case 'yml':
       result.conf = jsyaml.safeLoad(fs.readFileSync(pathToFile, 'utf8'));
       break;
-
+    case 'ini':
+      result.conf = ini.parse(fs.readFileSync(pathToFile, 'utf8'));
+      break;
     default:
   }
   return result.conf;
