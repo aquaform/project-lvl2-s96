@@ -1,10 +1,10 @@
-import parseFiles from './modules/parseFiles';
-import parseDiffs from './modules/parseDifferences';
-import renderDiffs from './modules/renderDifferences';
+import readData from './readData';
+import parseDiffs from './parseDifferences';
+import renderDiffs from './renderDifferences';
 
 const gendiff = (pathToFile1, pathToFile2) => {
-  const firstConfig = parseFiles(pathToFile1, pathToFile2).firstConf;
-  const secondConfig = parseFiles(pathToFile1, pathToFile2).secondConf;
+  const firstConfig = readData(pathToFile1, pathToFile2).firstConf;
+  const secondConfig = readData(pathToFile1, pathToFile2).secondConf;
 
   const result = parseDiffs(firstConfig, secondConfig);
 

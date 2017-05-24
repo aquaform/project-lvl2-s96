@@ -4,7 +4,7 @@ import ini from 'ini';
 
 const getExtension = pathToFile => pathToFile.split('.').pop();
 
-const parseFile = (pathToFile) => {
+const readFileData = (pathToFile) => {
   const result = {};
   switch (getExtension(pathToFile)) {
     case 'json':
@@ -23,7 +23,7 @@ const parseFile = (pathToFile) => {
 
 export default (pathToFile1, pathToFile2) => {
   const result = {};
-  result.firstConf = parseFile(pathToFile1);
-  result.secondConf = parseFile(pathToFile2);
+  result.firstConf = readFileData(pathToFile1);
+  result.secondConf = readFileData(pathToFile2);
   return result;
 };
