@@ -1,5 +1,5 @@
 #!/usr/bin/env node
 
-import start from '..';
+import gendiff from '../console';
 
-start();
+gendiff();
