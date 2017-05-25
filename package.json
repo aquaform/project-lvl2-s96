@@ -7,7 +7,7 @@
     "gendiff": "dist/bin/gendiff.js"
   },
   "scripts": {
-    "test": "jest --watchAll",
+    "test": "jest",
     "babel-node": "babel-node",
     "start": "NODE_ENV=production babel-node -- src/bin/gendiff.js",
     "build": "babel src --out-dir dist --source-maps inline",
