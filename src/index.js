@@ -18,5 +18,6 @@ const generateDiffs = (firstConfig, secondConfig) => {
 export default(pathToFile1, pathToFile2) => {
   const firstConfig = readData(pathToFile1);
   const secondConfig = readData(pathToFile2);
-  return generateDiffs(firstConfig, secondConfig);
+  console.log(firstConfig);
+  return generateDiffs(firstConfig.getData(), secondConfig.getData());
 };
