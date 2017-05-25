@@ -1,23 +1,37 @@
+import fs from 'fs';
 import _ from 'lodash';
-import readData from './readData';
+import path from 'path';
+import parseData from './parseData';
 
 const generateDiffs = (firstConfig, secondConfig) => {
   const firstConfigKeys = Object.keys(firstConfig);
   const secondConfigKeys = Object.keys(secondConfig);
   const unionKeys = _.union(firstConfigKeys, secondConfigKeys);
   const result = unionKeys.reduce((acc, key) => {
-    if (firstConfig[key] === secondConfig[key]) return `  ${acc}${key}: ${firstConfig[key]}\n`;
-    if (secondConfig[key] === undefined) return `${acc}- ${key}: ${firstConfig[key]}\n`;
-    if (firstConfig[key] === undefined) return `${acc}+ ${key}: ${secondConfig[key]}\n`;
+    if (firstConfig[key] === secondConfig[key]) {
+      return `  ${acc}${key}: ${firstConfig[key]}\n`;
+    } else if (secondConfig[key] === undefined) {
+      return `${acc}- ${key}: ${firstConfig[key]}\n`;
+    } else if (firstConfig[key] === undefined) {
+      return `${acc}+ ${key}: ${secondConfig[key]}\n`;
+    }
     return `${acc}+ ${key}: ${secondConfig[key]}\n- ${key}: ${firstConfig[key]}\n`;
   }
   , '');
   return `{\n${result}}`;
 };
 
+const getExt = pathToFile => path.extname(pathToFile);
+
+const readFile = pathToFile => fs.readFileSync(pathToFile, 'utf8');
+
 export default(pathToFile1, pathToFile2) => {
-  const firstConfig = readData(pathToFile1);
-  const secondConfig = readData(pathToFile2);
-  console.log(firstConfig);
-  return generateDiffs(firstConfig.getData(), secondConfig.getData());
+  const firstFileData = readFile(pathToFile1);
+  const firstFileExt = getExt(pathToFile1);
+  const secondFileData = readFile(pathToFile2);
+  const secondFileExt = getExt(pathToFile2);
+  const firstConfig = parseData(firstFileExt)(firstFileData);
+  const secondConfig = parseData(secondFileExt)(secondFileData);
+
+  return generateDiffs(firstConfig, secondConfig);
 };
