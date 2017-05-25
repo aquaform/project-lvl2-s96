@@ -6,10 +6,10 @@ const generateDiffs = (firstConfig, secondConfig) => {
   const secondConfigKeys = Object.keys(secondConfig);
   const unionKeys = _.union(firstConfigKeys, secondConfigKeys);
   const result = unionKeys.reduce((acc, key) => {
-    if (firstConfig[key] === secondConfig[key]) return `${acc}${key} ${firstConfig[key]}\n`;
-    if (secondConfig[key] === undefined) return `${acc}- ${key} ${firstConfig[key]}\n`;
-    if (firstConfig[key] === undefined) return `${acc}+ ${key} ${secondConfig[key]}\n`;
-    return `${acc}+ ${key} ${secondConfig[key]}\n- ${key} ${firstConfig[key]}\n`;
+    if (firstConfig[key] === secondConfig[key]) return `  ${acc}${key}: ${firstConfig[key]}\n`;
+    if (secondConfig[key] === undefined) return `${acc}- ${key}: ${firstConfig[key]}\n`;
+    if (firstConfig[key] === undefined) return `${acc}+ ${key}: ${secondConfig[key]}\n`;
+    return `${acc}+ ${key}: ${secondConfig[key]}\n- ${key}: ${firstConfig[key]}\n`;
   }
   , '');
   return `{\n${result}}`;
