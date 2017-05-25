@@ -1,7 +1,7 @@
 import fs from 'fs';
 import _ from 'lodash';
 import path from 'path';
-import parseData from './parseData';
+import getParser from './parserList';
 
 const generateDiffs = (firstConfig, secondConfig) => {
   const firstConfigKeys = Object.keys(firstConfig);
@@ -30,8 +30,8 @@ export default(pathToFile1, pathToFile2) => {
   const firstFileExt = getExt(pathToFile1);
   const secondFileData = readFile(pathToFile2);
   const secondFileExt = getExt(pathToFile2);
-  const firstConfig = parseData(firstFileExt)(firstFileData);
-  const secondConfig = parseData(secondFileExt)(secondFileData);
+  const firstConfig = getParser(firstFileExt)(firstFileData);
+  const secondConfig = getParser(secondFileExt)(secondFileData);
 
   return generateDiffs(firstConfig, secondConfig);
 };
