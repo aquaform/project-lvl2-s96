@@ -1,24 +1,24 @@
 import fs from 'fs';
 import _ from 'lodash';
 import path from 'path';
-import getParser from './parserList';
+import getParser from './parsersList';
 
 const generateDiffs = (firstConfig, secondConfig) => {
   const firstConfigKeys = Object.keys(firstConfig);
   const secondConfigKeys = Object.keys(secondConfig);
   const unionKeys = _.union(firstConfigKeys, secondConfigKeys);
-  const result = unionKeys.reduce((acc, key) => {
+  console.log(_.isPlainObject(firstConfig));
+  const result = unionKeys.map((key) => {
     if (firstConfig[key] === secondConfig[key]) {
-      return `  ${acc}${key}: ${firstConfig[key]}\n`;
+      return `  ${key}: ${firstConfig[key]}`;
     } else if (secondConfig[key] === undefined) {
-      return `${acc}- ${key}: ${firstConfig[key]}\n`;
+      return `- ${key}: ${firstConfig[key]}`;
     } else if (firstConfig[key] === undefined) {
-      return `${acc}+ ${key}: ${secondConfig[key]}\n`;
+      return `+ ${key}: ${secondConfig[key]}`;
     }
-    return `${acc}+ ${key}: ${secondConfig[key]}\n- ${key}: ${firstConfig[key]}\n`;
-  }
-  , '');
-  return `{\n${result}}`;
+    return [`+ ${key}: ${secondConfig[key]}`, `- ${key}: ${firstConfig[key]}`];
+  });
+  return `{\n${_.flatten(result).join('\n')}\n}`;
 };
 
 const getExt = pathToFile => path.extname(pathToFile);
