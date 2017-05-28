@@ -50,22 +50,28 @@ test('Generate differences with difficult YML files', () => {
   expect(gendiff(before, after)).toEqual(result2);
 });
 
+test('Generate differences with difficult INI files', () => {
+  const before = './__tests__/__fixtures__/before2.ini';
+  const after = './__tests__/__fixtures__/after2.ini';
 
-test('Generate differences with simple INI files', () => {
-  const before = './__tests__/__fixtures__/before.ini';
-  const after = './__tests__/__fixtures__/after.ini';
+  expect(gendiff(before, after)).toEqual(result2);
+});
+
+test('Generate differences with simple JSON files', () => {
+  const before = './__tests__/__fixtures__/before.json';
+  const after = './__tests__/__fixtures__/after.json';
 
   expect(gendiff(before, after)).toEqual(result);
 });
 
-test('Generate differences in YML files', () => {
+test('Generate differences in simple YML files', () => {
   const before = './__tests__/__fixtures__/before.yml';
   const after = './__tests__/__fixtures__/after.yml';
 
   expect(gendiff(before, after)).toEqual(result);
 });
 
-test('Generate differences in INI files', () => {
+test('Generate differences in simple INI files', () => {
   const before = './__tests__/__fixtures__/before.ini';
   const after = './__tests__/__fixtures__/after.ini';
 

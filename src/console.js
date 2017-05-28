@@ -6,8 +6,8 @@ program.version(pkg.version)
   .description('Compares two configuration files and shows a difference.')
   .arguments('<firstConfig> <secondConfig>')
   .option('-f, --format [type]', 'output format')
-  .action((pathToFile1, pathToFile2) => {
-    const diffs = gendiff(pathToFile1, pathToFile2);
+  .action((pathToFile1, pathToFile2, options) => {
+    const diffs = gendiff(pathToFile1, pathToFile2, options.format);
     console.log(diffs);
   });
 
