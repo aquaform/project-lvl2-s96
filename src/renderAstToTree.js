@@ -1,26 +1,26 @@
 const renderAstToTree = (ast, indents = '') => {
-  const result = ast.map((diff) => {
-    switch (diff[1]) {
+  const result = ast.map((node) => {
+    switch (node[1]) {
       case 'changed':
-        if (diff[4].length === 0) {
-          return `  ${indents}+ ${diff[0]}: ${diff[3]}\n  ${indents}- ${diff[0]}: ${diff[2]}`;
+        if (node[4].length === 0) {
+          return `  ${indents}+ ${node[0]}: ${node[3]}\n  ${indents}- ${node[0]}: ${node[2]}`;
         }
-        return `  ${indents}+ ${diff[0]}: ${renderAstToTree(diff[4], `    ${indents}`)}`;
+        return `  ${indents}+ ${node[0]}: ${renderAstToTree(node[4], `    ${indents}`)}`;
       case 'unchanged':
-        if (diff[4].length === 0) {
-          return `  ${indents}  ${diff[0]}: ${diff[2]}`;
+        if (node[4].length === 0) {
+          return `  ${indents}  ${node[0]}: ${node[2]}`;
         }
-        return `  ${indents}  ${diff[0]}: ${renderAstToTree(diff[4], `    ${indents}`)}`;
+        return `  ${indents}  ${node[0]}: ${renderAstToTree(node[4], `    ${indents}`)}`;
       case 'removed':
-        if (diff[4].length === 0) {
-          return `  ${indents}- ${diff[0]}: ${diff[2]}`;
+        if (node[4].length === 0) {
+          return `  ${indents}- ${node[0]}: ${node[2]}`;
         }
-        return `  ${indents}- ${diff[0]}: ${renderAstToTree(diff[4], `    ${indents}`)}`;
+        return `  ${indents}- ${node[0]}: ${renderAstToTree(node[4], `    ${indents}`)}`;
       case 'added':
-        if (diff[4].length === 0) {
-          return `  ${indents}+ ${diff[0]}: ${diff[3]}`;
+        if (node[4].length === 0) {
+          return `  ${indents}+ ${node[0]}: ${node[3]}`;
         }
-        return `  ${indents}+ ${diff[0]}: ${renderAstToTree(diff[4], `    ${indents}`)}`;
+        return `  ${indents}+ ${node[0]}: ${renderAstToTree(node[4], `    ${indents}`)}`;
       default:
 
     }

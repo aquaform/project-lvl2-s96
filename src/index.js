@@ -16,6 +16,5 @@ export default(pathToFile1, pathToFile2, format = 'tree') => {
   const firstConfig = getParser(firstFileExt)(firstFileData);
   const secondConfig = getParser(secondFileExt)(secondFileData);
   const astOfDiffs = buildAstOfDiffs(firstConfig, secondConfig);
-
   return renderFromAstOfDiffs(format)(astOfDiffs);
 };
