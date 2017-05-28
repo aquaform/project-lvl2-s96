@@ -1,30 +1,29 @@
 const renderAstToTree = (ast, indents = '') => {
   const result = ast.map((node) => {
-    switch (node[1]) {
+    switch (node.type) {
       case 'changed':
-        if (node[4].length === 0) {
-          return `  ${indents}+ ${node[0]}: ${node[3]}\n  ${indents}- ${node[0]}: ${node[2]}`;
+        if (node.children.length === 0) {
+          return `  ${indents}+ ${node.key}: ${node.afterValue}\n  ${indents}- ${node.key}: ${node.beforeValue}`;
         }
-        return `  ${indents}+ ${node[0]}: ${renderAstToTree(node[4], `    ${indents}`)}`;
+        return `  ${indents}+ ${node.key}: ${renderAstToTree(node.children, `    ${indents}`)}`;
       case 'unchanged':
-        if (node[4].length === 0) {
-          return `  ${indents}  ${node[0]}: ${node[2]}`;
+        if (node.children.length === 0) {
+          return `  ${indents}  ${node.key}: ${node.afterValue}`;
         }
-        return `  ${indents}  ${node[0]}: ${renderAstToTree(node[4], `    ${indents}`)}`;
+        return `  ${indents}  ${node.key}: ${renderAstToTree(node.children, `    ${indents}`)}`;
       case 'removed':
-        if (node[4].length === 0) {
-          return `  ${indents}- ${node[0]}: ${node[2]}`;
+        if (node.children.length === 0) {
+          return `  ${indents}- ${node.key}: ${node.beforeValue}`;
         }
-        return `  ${indents}- ${node[0]}: ${renderAstToTree(node[4], `    ${indents}`)}`;
+        return `  ${indents}- ${node.key}: ${renderAstToTree(node.children, `    ${indents}`)}`;
       case 'added':
-        if (node[4].length === 0) {
-          return `  ${indents}+ ${node[0]}: ${node[3]}`;
+        if (node.children.length === 0) {
+          return `  ${indents}+ ${node.key}: ${node.afterValue}`;
         }
-        return `  ${indents}+ ${node[0]}: ${renderAstToTree(node[4], `    ${indents}`)}`;
+        return `  ${indents}+ ${node.key}: ${renderAstToTree(node.children, `    ${indents}`)}`;
       default:
-
     }
-    return '';
+    return null;
   });
   return `{\n${result.join('\n')}\n${indents}}`;
 };

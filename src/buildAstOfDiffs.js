@@ -1,12 +1,10 @@
 import _ from 'lodash';
 
 
-const buildNode = ({ key, type, afterValue, beforeValue, children = [] }) => [
-  key,
-  type,
-  beforeValue,
-  afterValue,
-  children];
+const buildNode = ({ key, type, afterValue, beforeValue, children = [] }) => {
+  const result = { key, type, beforeValue, afterValue, children };
+  return result;
+};
 
 const generateDiffs = (beforeConfig, afterConfig) => {
   const beforeConfigKeys = Object.keys(beforeConfig);
