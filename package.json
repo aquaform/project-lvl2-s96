@@ -8,6 +8,7 @@
   },
   "scripts": {
     "test": "jest",
+    "test-watch": "jest --watch",
     "babel-node": "babel-node",
     "start": "NODE_ENV=production babel-node -- src/bin/gendiff.js",
     "build": "babel src --out-dir dist --source-maps inline",
