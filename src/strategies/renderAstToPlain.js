@@ -23,8 +23,11 @@ const renderAstToPlain = (ast, host = '') => {
         }
         return `Property '${host}.${node.key}' was removed`;
       case 'unchanged':
-        if (host === '' && node.children.length > 0) {
-          return renderAstToPlain(node.children, node.key);
+        if (node.children.length > 0) {
+          if (host === '') {
+            return renderAstToPlain(node.children, node.key);
+          }
+          return renderAstToPlain(`${host}.${node.key}`, node.children);
         }
         return null;
       default:

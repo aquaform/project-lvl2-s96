@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import getParser from './parsersList';
 import buildAstOfDiffs from './buildAstOfDiffs';
-import renderFromAstOfDiffs from './renderDiffs';
+import getStrategy from './strategies';
 
 const getExt = pathToFile => path.extname(pathToFile);
 
@@ -16,5 +16,5 @@ export default(pathToFile1, pathToFile2, format = 'tree') => {
   const firstConfig = getParser(firstFileExt)(firstFileData);
   const secondConfig = getParser(secondFileExt)(secondFileData);
   const astOfDiffs = buildAstOfDiffs(firstConfig, secondConfig);
-  return renderFromAstOfDiffs(format)(astOfDiffs);
+  return getStrategy(format)(astOfDiffs);
 };
