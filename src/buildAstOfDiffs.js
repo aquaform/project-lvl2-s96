@@ -1,6 +1,5 @@
 import _ from 'lodash';
 
-
 const buildNode = ({ key, type, afterValue, beforeValue, children = [] }) => {
   const result = { key, type, beforeValue, afterValue, children };
   return result;
